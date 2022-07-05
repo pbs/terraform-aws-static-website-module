@@ -24,7 +24,7 @@ module "s3" {
 }
 
 module "cloudfront" {
-  source = "github.com/pbs/terraform-aws-cloudfront-module?ref=0.0.1"
+  source = "github.com/pbs/terraform-aws-cloudfront-module?ref=0.1.1"
 
   name    = local.name
   comment = var.comment
