@@ -7,7 +7,7 @@
 Use this URL for the source of the module. See the usage examples below for more details.
 
 ```hcl
-github.com/pbs/terraform-aws-static-website-module?ref=0.0.2
+github.com/pbs/terraform-aws-static-website-module?ref=x.y.z
 ```
 
 ### Alternative Installation Methods
@@ -22,7 +22,7 @@ Integrate this module like so:
 
 ```hcl
 module "static-website" {
-  source = "github.com/pbs/terraform-aws-static-website-module?ref=0.0.2"
+  source = "github.com/pbs/terraform-aws-static-website-module?ref=x.y.z"
 
   # Tagging Parameters
   organization = var.organization
@@ -50,7 +50,7 @@ terraform apply \
 
 If this repo is added as a subtree, then the version of the module should be close to the version shown here:
 
-`0.0.2`
+`x.y.z`
 
 Note, however that subtrees can be altered as desired within repositories.
 
@@ -67,20 +67,20 @@ Below is automatically generated documentation on this Terraform module using [t
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.2.4 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.5.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.27.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.21.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.27.0 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_cloudfront"></a> [cloudfront](#module\_cloudfront) | github.com/pbs/terraform-aws-cloudfront-module | 0.1.1 |
-| <a name="module_s3"></a> [s3](#module\_s3) | github.com/pbs/terraform-aws-s3-module | 0.0.1 |
+| <a name="module_cloudfront"></a> [cloudfront](#module\_cloudfront) | github.com/pbs/terraform-aws-cloudfront-module | 1.0.0 |
+| <a name="module_s3"></a> [s3](#module\_s3) | github.com/pbs/terraform-aws-s3-module | 0.1.0 |
 
 ## Resources
 
