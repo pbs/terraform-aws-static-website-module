@@ -17,6 +17,19 @@ module "s3" {
 
   allow_anonymous_vpce_access = var.allow_anonymous_vpce_access
 
+  vpce = var.vpce
+
+  inventory_bucket                   = var.inventory_bucket
+  inventory_frequency                = var.inventory_frequency
+  inventory_included_object_versions = var.inventory_included_object_versions
+
+  block_public_acls       = var.block_public_acls
+  block_public_policy     = var.block_public_policy
+  ignore_public_acls      = var.ignore_public_acls
+  restrict_public_buckets = var.restrict_public_buckets
+
+  force_tls = var.force_tls
+
   organization = var.organization
   environment  = var.environment
   product      = var.product
@@ -87,6 +100,8 @@ module "cloudfront" {
 
   default_behavior_function_arn        = var.default_behavior_function_arn
   default_behavior_function_event_type = var.default_behavior_function_event_type
+
+  http_version = var.http_version
 
   organization = var.organization
   environment  = var.environment
