@@ -101,7 +101,7 @@ variable "aliases" {
 }
 
 variable "cnames" {
-  description = "(optional) CNAME(s) that are going to be created for this cdn in the primary_hosted_zone. This can be set to [] to avoid creating a CNAME for the app. This can be useful for CDNs. Default is `product`. e.g. [service] --> [service.example.com]"
+  description = "(optional) CNAME(s) that are going to be created for this cdn in the primary_hosted_zone. This can be set to [] to avoid creating a CNAME for the app. This can be useful for CDNs. Default is `product`. e.g. [service] --> [example.example.com]"
   default     = null
   type        = list(string)
 }
@@ -187,5 +187,11 @@ variable "default_response_headers_policy_id" {
 variable "default_response_headers_policy_name" {
   description = "(optional) policy name for the response headers policy of the default cache behavior"
   default     = null
+  type        = string
+}
+
+variable "http_version" {
+  description = "(optional) The maximum HTTP version to support on the distribution. Allowed values are http1.1, http2, http2and3 and http3."
+  default     = "http2and3"
   type        = string
 }

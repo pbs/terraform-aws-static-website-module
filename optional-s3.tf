@@ -17,8 +17,8 @@ variable "is_versioned" {
 }
 
 variable "acl" {
-  description = "Canned ACL for the bucket"
-  default     = "private"
+  description = "Canned ACL for the bucket. If an ACL is not provided, the bucket will be created with ACLs disabled"
+  default     = null
   type        = string
 }
 
@@ -129,7 +129,6 @@ variable "replication_source" {
   })
 }
 
-
 variable "bucket_policy" {
   description = "Policy to apply to the bucket. If null, one will be guessed based on surrounding functionality"
   default     = null
@@ -139,5 +138,59 @@ variable "bucket_policy" {
 variable "allow_anonymous_vpce_access" {
   description = "Create bucket policy that allows anonymous VPCE access. If bucket_policy is defined, this will be ignored."
   default     = false
+  type        = bool
+}
+
+variable "vpce" {
+  description = "Name of the VPC endpoint that should have access to this bucket. Only used when `allow_anonymous_vpce_access` is true."
+  default     = null
+  type        = string
+}
+
+variable "inventory_bucket" {
+  description = "Name of the bucket to use for inventory. If null, will not configure inventory configurations."
+  default     = null
+  type        = string
+}
+
+variable "inventory_frequency" {
+  description = "Frequency of inventory collection."
+  default     = "Daily"
+  type        = string
+}
+
+variable "inventory_included_object_versions" {
+  description = "Included object versions for inventory collection."
+  default     = "All"
+  type        = string
+}
+
+variable "block_public_acls" {
+  description = "Whether Amazon S3 should block public ACLs for this bucket."
+  default     = true
+  type        = bool
+}
+
+variable "block_public_policy" {
+  description = "Whether Amazon S3 should block public bucket policies for this bucket."
+  default     = true
+  type        = bool
+}
+
+variable "ignore_public_acls" {
+  description = "Whether Amazon S3 should ignore public ACLs for this bucket."
+  default     = true
+  type        = bool
+}
+
+variable "restrict_public_buckets" {
+  description = "Whether Amazon S3 should restrict public bucket policies for this bucket."
+  default     = true
+  type        = bool
+}
+
+variable "force_tls" {
+  description = "Deny HTTP requests that are made to the bucket without TLS."
+  default     = true
   type        = bool
 }
