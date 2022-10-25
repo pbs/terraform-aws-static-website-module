@@ -119,5 +119,10 @@ module "s3_policy" {
     path           = "*"
   }]
 
+  replication_source = var.replication_source
+
+  source_policy_documents   = var.source_policy_documents
+  override_policy_documents = var.override_policy_documents
+
   product = var.product
 }

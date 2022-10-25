@@ -129,12 +129,6 @@ variable "replication_source" {
   })
 }
 
-variable "bucket_policy" {
-  description = "Policy to apply to the bucket. If null, one will be guessed based on surrounding functionality"
-  default     = null
-  type        = string
-}
-
 variable "allow_anonymous_vpce_access" {
   description = "Create bucket policy that allows anonymous VPCE access. If bucket_policy is defined, this will be ignored."
   default     = false
