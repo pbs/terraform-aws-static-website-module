@@ -11,7 +11,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func testTemplate(t *testing.T, variant string) {
+func testStaticSite(t *testing.T, variant string) {
 	t.Parallel()
 
 	expectedName := fmt.Sprintf("example-tf-static-website-%s", variant)
@@ -32,27 +32,6 @@ func testTemplate(t *testing.T, variant string) {
 	defer terraform.Destroy(t, terraformOptions)
 
 	terraform.Init(t, terraformOptions)
-
-	// This is required because Terraform doesn't like
-	// it that it can't know if the data source below is necessary before
-	// running the plan.
-	terraformBucketTargetOptions := &terraform.Options{
-		TerraformDir: terraformDir,
-		LockTimeout:  "5m",
-		Targets: []string{
-			"module.static_website.module.s3.aws_s3_bucket.bucket",
-		},
-	}
-	terraform.Apply(t, terraformBucketTargetOptions)
-
-	terraformPolicyTargetOptions := &terraform.Options{
-		TerraformDir: terraformDir,
-		LockTimeout:  "5m",
-		Targets: []string{
-			"module.static_website.data.aws_iam_policy_document.policy_doc",
-		},
-	}
-	terraform.Apply(t, terraformPolicyTargetOptions)
 
 	terraform.Apply(t, terraformOptions)
 

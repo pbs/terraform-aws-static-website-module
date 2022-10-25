@@ -34,18 +34,6 @@ module "static-website" {
 }
 ```
 
-### :warning: Warning
-
-This module requires a targeted apply to start using it.
-
-The following command will apply the resources that need to be created in order to finish applying (assuming you name the module `static_website`):
-
-```bash
-terraform apply \
--target='module.static_website.module.s3.aws_s3_bucket.bucket' \
--target='module.static_website.data.aws_iam_policy_document.policy_doc'
-```
-
 ## Adding This Version of the Module
 
 If this repo is added as a subtree, then the version of the module should be close to the version shown here:

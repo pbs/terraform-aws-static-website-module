@@ -5,5 +5,5 @@ import (
 )
 
 func TestCorsExample(t *testing.T) {
-	testTemplate(t, "cors")
+	testStaticSite(t, "cors")
 }

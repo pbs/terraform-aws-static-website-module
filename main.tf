@@ -1,5 +1,5 @@
 module "s3" {
-  source = "github.com/pbs/terraform-aws-s3-module?ref=0.1.0"
+  source = "github.com/pbs/terraform-aws-s3-module?ref=0.2.0"
 
   name         = var.bucket_name
   use_prefix   = var.use_prefix
@@ -7,8 +7,8 @@ module "s3" {
   acl          = var.acl
   cors_rules   = var.cors_rules
 
-  bucket_policy   = local.bucket_policy
-  lifecycle_rules = var.lifecycle_rules
+  create_bucket_policy = false
+  lifecycle_rules      = var.lifecycle_rules
 
   force_destroy = var.force_destroy
 
@@ -37,7 +37,7 @@ module "s3" {
 }
 
 module "cloudfront" {
-  source = "github.com/pbs/terraform-aws-cloudfront-module?ref=1.0.0"
+  source = "github.com/pbs/terraform-aws-cloudfront-module?ref=2.0.0"
 
   name    = local.name
   comment = var.comment
@@ -110,93 +110,14 @@ module "cloudfront" {
   tags         = var.tags
 }
 
-data "aws_iam_policy_document" "policy_doc" {
-  statement {
-    actions   = ["s3:GetObject"]
-    resources = ["${module.s3.arn}/*"]
+module "s3_policy" {
+  source = "github.com/pbs/terraform-aws-s3-bucket-policy-module?ref=1.0.0"
 
-    principals {
-      type        = "AWS"
-      identifiers = module.cloudfront.oia_arns
-    }
-  }
+  name = module.s3.name
+  cloudfront_oac_access_statements = [{
+    cloudfront_arn = module.cloudfront.arn
+    path           = "*"
+  }]
 
-  statement {
-    actions   = ["s3:ListBucket"]
-    resources = [module.s3.arn]
-
-    principals {
-      type        = "AWS"
-      identifiers = module.cloudfront.oia_arns
-    }
-  }
-
-  dynamic "statement" {
-    for_each = var.allow_anonymous_vpce_access ? [1] : []
-    content {
-      actions = [
-        "s3:GetObject",
-      ]
-      resources = ["arn:aws:s3:::${module.s3.name}/*"]
-      condition {
-        test     = "StringEquals"
-        variable = "aws:sourceVpce"
-        values   = [local.vpce]
-      }
-      principals {
-        type        = "*"
-        identifiers = ["*"]
-      }
-    }
-  }
-
-  # These only need to be created if we're configuring replication
-
-  dynamic "statement" {
-    for_each = local.create_replication_target_policy ? toset(["create"]) : toset([])
-    content {
-      actions = [
-        "s3:ReplicateDelete",
-        "s3:ReplicateObject",
-      ]
-      resources = ["arn:aws:s3:::${module.s3.name}/*"]
-      principals {
-        type        = "AWS"
-        identifiers = ["arn:aws:iam::${var.replication_source.account_id}:role/${var.replication_source.role}"]
-      }
-    }
-  }
-
-  dynamic "statement" {
-    for_each = local.create_replication_target_policy ? toset(["create"]) : toset([])
-    content {
-      actions = [
-        "s3:List*",
-        "s3:GetBucketVersioning",
-        "s3:PutBucketVersioning",
-      ]
-      resources = ["arn:aws:s3:::${module.s3.name}"]
-      principals {
-        type        = "AWS"
-        identifiers = ["arn:aws:iam::${var.replication_source.account_id}:role/${var.replication_source.role}"]
-      }
-    }
-  }
-
-  dynamic "statement" {
-    for_each = local.create_replication_target_policy ? toset(["create"]) : toset([])
-    content {
-      actions = [
-        "s3:ObjectOwnerOverrideToBucketOwner",
-      ]
-      resources = ["arn:aws:s3:::${module.s3.name}/*"]
-      principals {
-        type        = "AWS"
-        identifiers = ["arn:aws:iam::${var.replication_source.account_id}:role/${var.replication_source.role}"]
-      }
-    }
-  }
-
-  source_policy_documents   = var.source_policy_documents
-  override_policy_documents = var.override_policy_documents
+  product = var.product
 }
