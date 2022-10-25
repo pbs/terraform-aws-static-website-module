@@ -7,7 +7,7 @@
 Use this URL for the source of the module. See the usage examples below for more details.
 
 ```hcl
-github.com/pbs/terraform-aws-static-website-module?ref=1.1.0
+github.com/pbs/terraform-aws-static-website-module?ref=x.y.z
 ```
 
 ### Alternative Installation Methods
@@ -22,7 +22,7 @@ Integrate this module like so:
 
 ```hcl
 module "static-website" {
-  source = "github.com/pbs/terraform-aws-static-website-module?ref=1.1.0"
+  source = "github.com/pbs/terraform-aws-static-website-module?ref=x.y.z"
 
   # Tagging Parameters
   organization = var.organization
@@ -34,23 +34,11 @@ module "static-website" {
 }
 ```
 
-### :warning: Warning
-
-This module requires a targeted apply to start using it.
-
-The following command will apply the resources that need to be created in order to finish applying (assuming you name the module `static_website`):
-
-```bash
-terraform apply \
--target='module.static_website.module.s3.aws_s3_bucket.bucket' \
--target='module.static_website.data.aws_iam_policy_document.policy_doc'
-```
-
 ## Adding This Version of the Module
 
 If this repo is added as a subtree, then the version of the module should be close to the version shown here:
 
-`1.1.0`
+`x.y.z`
 
 Note, however that subtrees can be altered as desired within repositories.
 
@@ -66,27 +54,24 @@ Below is automatically generated documentation on this Terraform module using [t
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.2.4 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.2 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.27.0 |
 
 ## Providers
 
-| Name | Version |
-|------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.27.0 |
+No providers.
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_cloudfront"></a> [cloudfront](#module\_cloudfront) | github.com/pbs/terraform-aws-cloudfront-module | 1.0.0 |
-| <a name="module_s3"></a> [s3](#module\_s3) | github.com/pbs/terraform-aws-s3-module | 0.1.0 |
+| <a name="module_cloudfront"></a> [cloudfront](#module\_cloudfront) | github.com/pbs/terraform-aws-cloudfront-module | 2.0.0 |
+| <a name="module_s3"></a> [s3](#module\_s3) | github.com/pbs/terraform-aws-s3-module | 0.2.0 |
+| <a name="module_s3_policy"></a> [s3\_policy](#module\_s3\_policy) | github.com/pbs/terraform-aws-s3-bucket-policy-module | 1.0.0 |
 
 ## Resources
 
-| Name | Type |
-|------|------|
-| [aws_iam_policy_document.policy_doc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+No resources.
 
 ## Inputs
 
@@ -105,7 +90,6 @@ Below is automatically generated documentation on this Terraform module using [t
 | <a name="input_block_public_acls"></a> [block\_public\_acls](#input\_block\_public\_acls) | Whether Amazon S3 should block public ACLs for this bucket. | `bool` | `true` | no |
 | <a name="input_block_public_policy"></a> [block\_public\_policy](#input\_block\_public\_policy) | Whether Amazon S3 should block public bucket policies for this bucket. | `bool` | `true` | no |
 | <a name="input_bucket_name"></a> [bucket\_name](#input\_bucket\_name) | Name to use for the bucket. If null, will default to product. | `string` | `null` | no |
-| <a name="input_bucket_policy"></a> [bucket\_policy](#input\_bucket\_policy) | Policy to apply to the bucket. If null, one will be guessed based on surrounding functionality | `string` | `null` | no |
 | <a name="input_cloudfront_default_certificate"></a> [cloudfront\_default\_certificate](#input\_cloudfront\_default\_certificate) | (optional) use cloudfront default ssl certificate | `bool` | `false` | no |
 | <a name="input_cnames"></a> [cnames](#input\_cnames) | (optional) CNAME(s) that are going to be created for this cdn in the primary\_hosted\_zone. This can be set to [] to avoid creating a CNAME for the app. This can be useful for CDNs. Default is `product`. e.g. [service] --> [example.example.com] | `list(string)` | `null` | no |
 | <a name="input_comment"></a> [comment](#input\_comment) | (optional) comment for the CDN | `string` | `null` | no |
@@ -167,4 +151,4 @@ Below is automatically generated documentation on this Terraform module using [t
 | <a name="output_bucket_name"></a> [bucket\_name](#output\_bucket\_name) | Bucket backing this CDN. |
 | <a name="output_domain_name"></a> [domain\_name](#output\_domain\_name) | One domain name that will resolve to this cdn. Might not be a valid alias. |
 | <a name="output_id"></a> [id](#output\_id) | ID of the CloudFront distribution |
-| <a name="output_oia_arns"></a> [oia\_arns](#output\_oia\_arns) | Origin Access Identity ARNs |
+| <a name="output_oac_id"></a> [oac\_id](#output\_oac\_id) | ID of the origin access identity |

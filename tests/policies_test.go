@@ -5,5 +5,5 @@ import (
 )
 
 func TestPoliciesExample(t *testing.T) {
-	testTemplate(t, "policies")
+	testStaticSite(t, "policies")
 }

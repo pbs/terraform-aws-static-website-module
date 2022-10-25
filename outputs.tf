@@ -23,7 +23,7 @@ output "bucket_arn" {
   value       = module.s3.arn
 }
 
-output "oia_arns" {
-  description = "Origin Access Identity ARNs"
-  value       = module.cloudfront.oia_arns
+output "oac_id" {
+  description = "ID of the origin access identity"
+  value       = module.cloudfront.oac_id
 }

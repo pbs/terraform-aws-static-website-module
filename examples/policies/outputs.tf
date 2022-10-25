@@ -8,7 +8,7 @@ output "domain_name" {
   value       = module.static_website.domain_name
 }
 
-output "oia_arns" {
-  description = "Origin Access Identity ARNs"
-  value       = module.static_website.oia_arns
+output "oac_id" {
+  description = "ID of the origin access identity"
+  value       = module.static_website.oac_id
 }
