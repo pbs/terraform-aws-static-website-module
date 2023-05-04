@@ -52,16 +52,23 @@ variable "default_origin_id" {
   type        = string
 }
 
-variable "default_behavior_function_event_type" {
-  description = "(optional) default behavior function event type. If default_behavior_function_arn is null, this is ignored."
-  default     = "viewer-request"
-  type        = string
+variable "default_behavior_lambda_function_association" {
+  description = "(optional) default behavior lambda function association"
+  default     = null
+  type = object({
+    event_type   = string
+    lambda_arn   = string
+    include_body = optional(bool)
+  })
 }
 
-variable "default_behavior_function_arn" {
-  description = "(optional) default behavior function arn. If null, no function is associated with default behavior."
+variable "default_behavior_function_association" {
+  description = "(optional) default behavior function association"
   default     = null
-  type        = string
+  type = object({
+    event_type   = string
+    function_arn = string
+  })
 }
 
 variable "viewer_protocol_policy" {
@@ -139,7 +146,33 @@ variable "logging_config" {
 variable "ordered_cache_behavior" {
   description = "(optional) an ordered list of cache behaviors resource for this distribution"
   default     = []
-  type        = list(any)
+  type = list(object({
+    path_pattern     = string
+    target_origin_id = string
+
+    cache_policy_id            = string
+    origin_request_policy_id   = optional(string)
+    response_headers_policy_id = optional(string)
+
+    allowed_methods           = optional(list(string), ["GET", "HEAD"])
+    cached_methods            = optional(list(string), ["GET", "HEAD"])
+    compress                  = optional(bool, true)
+    field_level_encryption_id = optional(string)
+    viewer_protocol_policy    = optional(string, "redirect-to-https")
+    smooth_streaming          = optional(bool)
+    trusted_key_groups        = optional(list(string))
+    trusted_signers           = optional(list(string))
+
+    lambda_function_associations = optional(list(object({
+      event_type   = optional(string, "viewer-request")
+      lambda_arn   = string
+      include_body = optional(bool, false)
+    })))
+    function_associations = optional(list(object({
+      event_type   = optional(string, "viewer-request")
+      function_arn = string
+    })))
+  }))
 }
 
 variable "web_acl_id" {

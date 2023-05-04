@@ -1,4 +1,4 @@
-# PBS TF static website module
+# PBS TF Static Website Module
 
 ## Installation
 

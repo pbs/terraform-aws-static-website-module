@@ -1,5 +1,5 @@
 module "s3" {
-  source = "github.com/pbs/terraform-aws-s3-module?ref=0.2.0"
+  source = "github.com/pbs/terraform-aws-s3-module?ref=1.0.1"
 
   name         = var.bucket_name
   use_prefix   = var.use_prefix
@@ -37,7 +37,7 @@ module "s3" {
 }
 
 module "cloudfront" {
-  source = "github.com/pbs/terraform-aws-cloudfront-module?ref=2.0.0"
+  source = "github.com/pbs/terraform-aws-cloudfront-module?ref=3.0.0"
 
   name    = local.name
   comment = var.comment
@@ -98,8 +98,8 @@ module "cloudfront" {
 
   acm_arn = var.acm_arn
 
-  default_behavior_function_arn        = var.default_behavior_function_arn
-  default_behavior_function_event_type = var.default_behavior_function_event_type
+  default_behavior_function_association        = var.default_behavior_function_association
+  default_behavior_lambda_function_association = var.default_behavior_lambda_function_association
 
   http_version = var.http_version
 
@@ -111,7 +111,7 @@ module "cloudfront" {
 }
 
 module "s3_policy" {
-  source = "github.com/pbs/terraform-aws-s3-bucket-policy-module?ref=1.0.0"
+  source = "github.com/pbs/terraform-aws-s3-bucket-policy-module?ref=1.0.1"
 
   name = module.s3.name
   cloudfront_oac_access_statements = [{
