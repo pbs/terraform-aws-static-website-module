@@ -37,7 +37,7 @@ module "s3" {
 }
 
 module "cloudfront" {
-  source = "github.com/pbs/terraform-aws-cloudfront-module?ref=2.0.0"
+  source = "github.com/pbs/terraform-aws-cloudfront-module?ref=3.0.0"
 
   name    = local.name
   comment = var.comment
@@ -111,7 +111,7 @@ module "cloudfront" {
 }
 
 module "s3_policy" {
-  source = "github.com/pbs/terraform-aws-s3-bucket-policy-module?ref=1.0.0"
+  source = "github.com/pbs/terraform-aws-s3-bucket-policy-module?ref=1.0.1"
 
   name = module.s3.name
   cloudfront_oac_access_statements = [{
