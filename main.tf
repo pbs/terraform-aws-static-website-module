@@ -98,8 +98,8 @@ module "cloudfront" {
 
   acm_arn = var.acm_arn
 
-  default_behavior_function_arn        = var.default_behavior_function_arn
-  default_behavior_function_event_type = var.default_behavior_function_event_type
+  default_behavior_function_association        = var.default_behavior_function_association
+  default_behavior_lambda_function_association = var.default_behavior_lambda_function_association
 
   http_version = var.http_version
 
