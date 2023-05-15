@@ -7,7 +7,7 @@
 Use this URL for the source of the module. See the usage examples below for more details.
 
 ```hcl
-github.com/pbs/terraform-aws-static-website-module?ref=3.0.1
+github.com/pbs/terraform-aws-static-website-module?ref=3.0.2
 ```
 
 ### Alternative Installation Methods
@@ -22,7 +22,7 @@ Integrate this module like so:
 
 ```hcl
 module "static-website" {
-  source = "github.com/pbs/terraform-aws-static-website-module?ref=3.0.1"
+  source = "github.com/pbs/terraform-aws-static-website-module?ref=3.0.2"
 
   # Tagging Parameters
   organization = var.organization
@@ -38,7 +38,7 @@ module "static-website" {
 
 If this repo is added as a subtree, then the version of the module should be close to the version shown here:
 
-`3.0.1`
+`3.0.2`
 
 Note, however that subtrees can be altered as desired within repositories.
 
@@ -66,7 +66,7 @@ No providers.
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_cloudfront"></a> [cloudfront](#module\_cloudfront) | github.com/pbs/terraform-aws-cloudfront-module | 3.0.0 |
-| <a name="module_s3"></a> [s3](#module\_s3) | github.com/pbs/terraform-aws-s3-module | 1.0.1 |
+| <a name="module_s3"></a> [s3](#module\_s3) | github.com/pbs/terraform-aws-s3-module | 1.0.2 |
 | <a name="module_s3_policy"></a> [s3\_policy](#module\_s3\_policy) | github.com/pbs/terraform-aws-s3-bucket-policy-module | 1.0.1 |
 
 ## Resources
