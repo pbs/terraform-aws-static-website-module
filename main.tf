@@ -120,5 +120,7 @@ module "s3_policy" {
 
   force_tls = var.force_tls
 
+  allow_anonymous_vpce_access = var.allow_anonymous_vpce_access
+
   product = var.product
 }

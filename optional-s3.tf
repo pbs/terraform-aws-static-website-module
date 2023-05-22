@@ -120,12 +120,6 @@ variable "replication_configuration_shortcut" {
   })
 }
 
-variable "create_bucket_policy" {
-  description = "Create a bucket policy for the bucket"
-  default     = true
-  type        = bool
-}
-
 variable "block_public_acls" {
   description = "Whether Amazon S3 should block public ACLs for this bucket."
   default     = true
