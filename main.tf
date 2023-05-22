@@ -15,20 +15,14 @@ module "s3" {
   replication_configuration_set      = var.replication_configuration_set
   replication_configuration_shortcut = var.replication_configuration_shortcut
 
-  allow_anonymous_vpce_access = var.allow_anonymous_vpce_access
-
   vpce = var.vpce
 
-  inventory_bucket                   = var.inventory_bucket
-  inventory_frequency                = var.inventory_frequency
-  inventory_included_object_versions = var.inventory_included_object_versions
+  inventory_config = var.inventory_config
 
   block_public_acls       = var.block_public_acls
   block_public_policy     = var.block_public_policy
   ignore_public_acls      = var.ignore_public_acls
   restrict_public_buckets = var.restrict_public_buckets
-
-  force_tls = var.force_tls
 
   organization = var.organization
   environment  = var.environment
@@ -123,6 +117,8 @@ module "s3_policy" {
 
   source_policy_documents   = var.source_policy_documents
   override_policy_documents = var.override_policy_documents
+
+  force_tls = var.force_tls
 
   product = var.product
 }

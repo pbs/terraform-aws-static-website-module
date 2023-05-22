@@ -120,43 +120,10 @@ variable "replication_configuration_shortcut" {
   })
 }
 
-variable "replication_source" {
-  description = "The account number and role for the source bucket in a replication configuration. Creates a bucket policy."
-  default     = null
-  type = object({
-    account_id = string
-    role       = string
-  })
-}
-
-variable "allow_anonymous_vpce_access" {
-  description = "Create bucket policy that allows anonymous VPCE access. If bucket_policy is defined, this will be ignored."
-  default     = false
+variable "create_bucket_policy" {
+  description = "Create a bucket policy for the bucket"
+  default     = true
   type        = bool
-}
-
-variable "vpce" {
-  description = "Name of the VPC endpoint that should have access to this bucket. Only used when `allow_anonymous_vpce_access` is true."
-  default     = null
-  type        = string
-}
-
-variable "inventory_bucket" {
-  description = "Name of the bucket to use for inventory. If null, will not configure inventory configurations."
-  default     = null
-  type        = string
-}
-
-variable "inventory_frequency" {
-  description = "Frequency of inventory collection."
-  default     = "Daily"
-  type        = string
-}
-
-variable "inventory_included_object_versions" {
-  description = "Included object versions for inventory collection."
-  default     = "All"
-  type        = string
 }
 
 variable "block_public_acls" {
@@ -183,8 +150,34 @@ variable "restrict_public_buckets" {
   type        = bool
 }
 
-variable "force_tls" {
-  description = "Deny HTTP requests that are made to the bucket without TLS."
-  default     = true
-  type        = bool
+variable "inventory_config" {
+  description = "Inventory configuration"
+  default     = null
+  type = object({
+    enabled = optional(bool, true)
+
+    included_object_versions = optional(string, "All")
+    destination = object({
+      bucket = object({
+        name       = string
+        format     = optional(string, "Parquet")
+        prefix     = optional(string)
+        account_id = optional(string)
+      })
+    })
+    filter = optional(object({
+      prefix = string
+    }))
+    schedule = optional(object({
+      frequency = string
+      }), {
+      frequency = "Daily"
+    })
+    optional_fields = optional(list(string), [
+      "Size",
+      "LastModifiedDate",
+      "StorageClass",
+      "IntelligentTieringAccessTier",
+    ])
+  })
 }
