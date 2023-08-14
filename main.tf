@@ -105,7 +105,7 @@ module "cloudfront" {
 }
 
 module "s3_policy" {
-  source = "github.com/pbs/terraform-aws-s3-bucket-policy-module?ref=1.0.8"
+  source = "github.com/pbs/terraform-aws-s3-bucket-policy-module?ref=1.0.9"
 
   name = module.s3.name
   cloudfront_oac_access_statements = [{
