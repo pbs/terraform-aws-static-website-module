@@ -7,7 +7,7 @@
 Use this URL for the source of the module. See the usage examples below for more details.
 
 ```hcl
-github.com/pbs/terraform-aws-static-website-module?ref=4.0.20
+github.com/pbs/terraform-aws-static-website-module?ref=x.y.z
 ```
 
 ### Alternative Installation Methods
@@ -22,7 +22,7 @@ Integrate this module like so:
 
 ```hcl
 module "static-website" {
-  source = "github.com/pbs/terraform-aws-static-website-module?ref=4.0.20"
+  source = "github.com/pbs/terraform-aws-static-website-module?ref=x.y.z"
 
   # Tagging Parameters
   organization = var.organization
@@ -38,7 +38,7 @@ module "static-website" {
 
 If this repo is added as a subtree, then the version of the module should be close to the version shown here:
 
-`4.0.20`
+`x.y.z`
 
 Note, however that subtrees can be altered as desired within repositories.
 
@@ -66,7 +66,7 @@ No providers.
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_cloudfront"></a> [cloudfront](#module\_cloudfront) | github.com/pbs/terraform-aws-cloudfront-module | 3.1.4 |
-| <a name="module_s3"></a> [s3](#module\_s3) | github.com/pbs/terraform-aws-s3-module | 2.0.13 |
+| <a name="module_s3"></a> [s3](#module\_s3) | github.com/pbs/terraform-aws-s3-module | 3.0.0 |
 | <a name="module_s3_policy"></a> [s3\_policy](#module\_s3\_policy) | github.com/pbs/terraform-aws-s3-bucket-policy-module | 1.0.10 |
 
 ## Resources
@@ -118,7 +118,7 @@ No resources.
 | <a name="input_inventory_config"></a> [inventory\_config](#input\_inventory\_config) | Inventory configuration | <pre>object({<br>    enabled = optional(bool, true)<br><br>    included_object_versions = optional(string, "All")<br>    destination = object({<br>      bucket = object({<br>        name       = string<br>        format     = optional(string, "Parquet")<br>        prefix     = optional(string)<br>        account_id = optional(string)<br>      })<br>    })<br>    filter = optional(object({<br>      prefix = string<br>    }))<br>    schedule = optional(object({<br>      frequency = string<br>      }), {<br>      frequency = "Daily"<br>    })<br>    optional_fields = optional(list(string), [<br>      "Size",<br>      "LastModifiedDate",<br>      "StorageClass",<br>      "IntelligentTieringAccessTier",<br>    ])<br>  })</pre> | `null` | no |
 | <a name="input_is_ipv6_enabled"></a> [is\_ipv6\_enabled](#input\_is\_ipv6\_enabled) | (optional) enable ipv6 | `bool` | `true` | no |
 | <a name="input_is_versioned"></a> [is\_versioned](#input\_is\_versioned) | Is versioning enabled? | `bool` | `true` | no |
-| <a name="input_lifecycle_rules"></a> [lifecycle\_rules](#input\_lifecycle\_rules) | List of maps containing configuration of object lifecycle management. | `any` | <pre>[<br>  {<br>    "abort_incomplete_multipart_upload_days": 7,<br>    "enabled": true,<br>    "id": "default-lifecycle-rule",<br>    "noncurrent_version_transition": [<br>      {<br>        "days": 30,<br>        "storage_class": "GLACIER"<br>      }<br>    ],<br>    "transition": [<br>      {<br>        "days": 7,<br>        "storage_class": "INTELLIGENT_TIERING"<br>      }<br>    ]<br>  }<br>]</pre> | no |
+| <a name="input_lifecycle_rules"></a> [lifecycle\_rules](#input\_lifecycle\_rules) | List of maps containing configuration of object lifecycle management. | <pre>list(object({<br>    id      = string<br>    enabled = optional(bool, true)<br>    filter = optional(object({<br>      and = optional(list(object({<br>        object_size_greater_than = optional(number)<br>        object_size_less_than    = optional(number)<br>        prefix                   = optional(string)<br>        tags                     = optional(map(string))<br>      })))<br>      object_size_greater_than = optional(number)<br>      object_size_less_than    = optional(number)<br>      prefix                   = optional(string)<br>      tag = optional(object({<br>        key   = string<br>        value = string<br>      }))<br>    }))<br>    abort_incomplete_multipart_upload_days = optional(number)<br>    expiration = optional(object({<br>      date                         = optional(string)<br>      days                         = optional(number)<br>      expired_object_delete_marker = optional(bool)<br>    }))<br>    noncurrent_version_expiration = optional(object({<br>      days = optional(number)<br>    }))<br>    noncurrent_version_transition = optional(list(object({<br>      days          = optional(number)<br>      storage_class = optional(string)<br>    })), [])<br>    transition = optional(list(object({<br>      date          = optional(string)<br>      days          = optional(number)<br>      storage_class = string<br>    })), [])<br>  }))</pre> | <pre>[<br>  {<br>    "abort_incomplete_multipart_upload_days": 7,<br>    "enabled": true,<br>    "id": "default-lifecycle-rule",<br>    "noncurrent_version_transition": [<br>      {<br>        "days": 30,<br>        "storage_class": "GLACIER"<br>      }<br>    ],<br>    "transition": [<br>      {<br>        "days": 7,<br>        "storage_class": "INTELLIGENT_TIERING"<br>      }<br>    ]<br>  }<br>]</pre> | no |
 | <a name="input_logging_config"></a> [logging\_config](#input\_logging\_config) | (optional) logging configuration that controls how logs are written to your distribution (maximum one) | `list(any)` | `[]` | no |
 | <a name="input_minimum_protocol_version"></a> [minimum\_protocol\_version](#input\_minimum\_protocol\_version) | (optional) tls minimum protocol version | `string` | `"TLSv1"` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name to use for the static site. If null, will default to product. | `string` | `null` | no |
