@@ -7,7 +7,7 @@
 Use this URL for the source of the module. See the usage examples below for more details.
 
 ```hcl
-github.com/pbs/terraform-aws-static-website-module?ref=5.0.14
+github.com/pbs/terraform-aws-static-website-module?ref=x.y.z
 ```
 
 ### Alternative Installation Methods
@@ -21,8 +21,8 @@ This module provisions an S3 bucket fronted by CloudFront to serve static conten
 Integrate this module like so:
 
 ```hcl
-module "static-website" {
-  source = "github.com/pbs/terraform-aws-static-website-module?ref=5.0.14"
+module "static_website" {
+  source = "github.com/pbs/terraform-aws-static-website-module?ref=x.y.z"
 
   # Tagging Parameters
   organization = var.organization
@@ -38,7 +38,7 @@ module "static-website" {
 
 If this repo is added as a subtree, then the version of the module should be close to the version shown here:
 
-`5.0.14`
+`x.y.z`
 
 Note, however that subtrees can be altered as desired within repositories.
 
@@ -66,7 +66,7 @@ No providers.
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_cloudfront"></a> [cloudfront](#module\_cloudfront) | github.com/pbs/terraform-aws-cloudfront-module | 3.1.9 |
-| <a name="module_s3"></a> [s3](#module\_s3) | github.com/pbs/terraform-aws-s3-module | 3.0.8 |
+| <a name="module_s3"></a> [s3](#module\_s3) | github.com/pbs/terraform-aws-s3-module | 4.0.0 |
 | <a name="module_s3_policy"></a> [s3\_policy](#module\_s3\_policy) | github.com/pbs/terraform-aws-s3-bucket-policy-module | 1.0.15 |
 
 ## Resources
@@ -82,7 +82,7 @@ No resources.
 | <a name="input_primary_hosted_zone"></a> [primary\_hosted\_zone](#input\_primary\_hosted\_zone) | Name of the primary hosted zone for DNS. e.g. primary\_hosted\_zone = example.org --> service.example.org. | `string` | n/a | yes |
 | <a name="input_product"></a> [product](#input\_product) | Tag used to group resources according to product | `string` | n/a | yes |
 | <a name="input_repo"></a> [repo](#input\_repo) | Tag used to point to the repo using this module | `string` | n/a | yes |
-| <a name="input_acl"></a> [acl](#input\_acl) | Canned ACL for the bucket. If an ACL is not provided, the bucket will be created with ACLs disabled | `string` | `null` | no |
+| <a name="input_acl"></a> [acl](#input\_acl) | ACL configuration for the bucket. If an ACL is not provided, the bucket will be created with ACLs disabled | <pre>object({<br>    canned_acl            = optional(string)<br>    expected_bucket_owner = optional(string)<br>    access_control_policy = optional(object({<br>      grants = set(object({<br>        grantee = object({<br>          type          = string<br>          email_address = optional(string)<br>          id            = optional(string)<br>          uri           = optional(string)<br>        })<br>        permission = string<br>      }))<br>      owner = object({<br>        id           = string<br>        display_name = optional(string)<br>      })<br>    }))<br>  })</pre> | `null` | no |
 | <a name="input_acm_arn"></a> [acm\_arn](#input\_acm\_arn) | (optional) ARN for the ACM cert used for the CloudFront distribution | `string` | `null` | no |
 | <a name="input_additional_origin_configurations"></a> [additional\_origin\_configurations](#input\_additional\_origin\_configurations) | Additional origin configurations to merge into default configuration. Useful for setting origin shield configurations | `any` | `{}` | no |
 | <a name="input_aliases"></a> [aliases](#input\_aliases) | (optional) CNAME(s) that are allowed to be used for this cdn. Default is `product`.`primary_hosted_zone`. e.g. [service.example.com] --> [service.example.com] | `list(string)` | `null` | no |
