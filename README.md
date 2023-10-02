@@ -21,7 +21,7 @@ This module provisions an S3 bucket fronted by CloudFront to serve static conten
 Integrate this module like so:
 
 ```hcl
-module "static-website" {
+module "static_website" {
   source = "github.com/pbs/terraform-aws-static-website-module?ref=x.y.z"
 
   # Tagging Parameters
